@@ -82,20 +82,29 @@ void visualization()
     plt::xlim(0, 300);
     plt::ylim(0, 150);
 
-    vector<double> x;
-    vector<double> y;
+    vector<double> xocc, xfree, xunkn;
+    vector<double> yocc, yfree, yunkn;
+
 
     //Loop over the log odds values of the cells and plot each cell state.
     for (int xi = 0; xi < mapWidth/gridWidth; ++xi) {
         for (int yi = 0; yi < mapHeight/gridHeight; ++yi) {
-            if (l[xi][yi] > 0) {
-                x.push_back(xi);
-                y.push_back(yi);
+            if (l[xi][yi] > locc) {
+                xocc.push_back(xi);
+                yocc.push_back(yi);
+            } else if (l[xi][yi] < lfree) {
+                xfree.push_back(xi);
+                yfree.push_back(yi);
+            } else {
+                xunkn.push_back(xi);
+                yunkn.push_back(yi);
             }
         }
     }
 
-    plt::plot(x, y, "g.");
+    plt::plot(xocc, yocc, "b.");
+    plt::plot(xfree, yfree, "r.");
+    plt::plot(xunkn, yunkn, "g.");
 
     //Unkown state: green color, occupied state: black color, and free state: red color
 
